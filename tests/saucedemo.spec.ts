@@ -5,6 +5,7 @@ const CREDENTIALS = {
   validUser: 'standard_user',
   validPass: 'secret_sauce',
   problemUser: 'problem_user',
+  lockedUser: 'locked_out_user',
 };
 
 test.describe('SauceDemo', () => {
@@ -37,6 +38,15 @@ test.describe('Login Form Validation', () => {
     await page.getByPlaceholder("password").fill("secret_sau");
     await page.getByRole("button", { name: "Login" }).click();
     await expect(page.getByTestId("error"), 'Error message should be visible when credentials are incorrect').toBeVisible();
+  });
+
+  test('locked', async ({ page }) => {
+    await page.getByPlaceholder("username").fill(CREDENTIALS.lockedUser);
+    await page.getByPlaceholder("password").fill(CREDENTIALS.validPass);
+    await page.getByRole("button", { name: "Login" }).click();
+    await expect(page.getByTestId('error'), 'Error message should be visible for locked user').toHaveText(
+      'Epic sadface: Sorry, this user has been locked out.',
+    );
   });
 });
 
