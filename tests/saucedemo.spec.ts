@@ -20,6 +20,8 @@ test.describe('Login Form Validation', () => {
     await expect(page.getByTestId("error"),'Error message should be visible when both fields are empty').toBeVisible();
   });
 
+  //for new branch 
+
   test('EmptyName', async ({ page }) => {
     await page.getByPlaceholder("password").fill(CREDENTIALS.validPass);
     await page.getByRole("button", { name: "Login" }).click();

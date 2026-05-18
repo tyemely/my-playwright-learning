@@ -6,4 +6,4 @@ test ("test data is wired correctly", async()=> {
     console.log("URL:", getLoginURL("staging"));
     console.log("Email:", email);
     console.log("Password:", password);
-});
+}); 
