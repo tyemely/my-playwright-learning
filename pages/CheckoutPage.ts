@@ -9,6 +9,7 @@ export class CheckoutPage {
   readonly zipCodeInput: Locator;
   readonly continueButton: Locator;
   readonly cancelButton: Locator;
+  readonly errorMessage: Locator;
 
   // Step 2 — Overview
   readonly cartItems: Locator;
@@ -31,6 +32,7 @@ export class CheckoutPage {
     this.zipCodeInput = page.getByPlaceholder("Zip/Postal Code");
     this.continueButton = page.getByRole("button", { name: "Continue" });
     this.cancelButton = page.getByRole("button", { name: "Cancel" });
+    this.errorMessage = page.getByTestId("error");
 
     // Step 2
     this.cartItems = page.locator(".cart_item");

@@ -3,6 +3,12 @@ export type Credentials = {
   password: string;
 };
 
+export const CHECKOUT_INFO = {
+  firstName: "John",
+  lastName: "Doe",
+  zipCode: "12345",
+};
+
 export const USERS: Record<string, Credentials> = {
   standard: {
     username: "standard_user",
