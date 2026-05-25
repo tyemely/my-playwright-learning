@@ -1,14 +1,31 @@
-export type Credentials ={
-    email:string;
-    password:string;
-    role?:string;
+export type Credentials = {
+  username: string;
+  password: string;
 };
 
-export const validUser = {
-    email: "user1email@gmail.com",
-    password: "1234567890",
-};
-
-export function getLoginURL(env: string): string {
-    return `https://${env}.example.com/login`;
+export const USERS: Record<string, Credentials> = {
+  standard: {
+    username: "standard_user",
+    password: "secret_sauce",
+  },
+  locked: {
+    username: "locked_out_user",
+    password: "secret_sauce",
+  },
+  problem: {
+    username: "problem_user",
+    password: "secret_sauce",
+  },
+  performance: {
+    username: "performance_glitch_user",
+    password: "secret_sauce",
+  },
+  error: {
+    username: "error_user",
+    password: "secret_sauce",
+  },
+  visual: {
+    username: "visual_user",
+    password: "secret_sauce",
+  },
 };

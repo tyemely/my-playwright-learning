@@ -1,6 +1,0 @@
-/ ❌ Bad
-page.locator("div:nth-child(3) > span")
-
-// ✓ Your task: rewrite this using attributes, role, or text
-
-getByTestId('shopping-cart-badge')
