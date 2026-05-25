@@ -1,11 +1,15 @@
 import { type Locator, type Page } from "@playwright/test";
 
+export type SortOption = "az" | "za" | "lohi" | "hilo";
+
 export class InventoryPage {
   readonly page: Page;
   readonly title: Locator;
   readonly cartBadge: Locator;
   readonly cartIcon: Locator;
   readonly productList: Locator;
+  readonly sortDropdown: Locator;
+  readonly productPrices: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -13,6 +17,17 @@ export class InventoryPage {
     this.cartBadge = page.locator(".shopping_cart_badge");
     this.cartIcon = page.locator(".shopping_cart_link");
     this.productList = page.locator(".inventory_list");
+    this.sortDropdown = page.locator(".product_sort_container");
+    this.productPrices = page.locator(".inventory_item_price");
+  }
+
+  async sortBy(option: SortOption) {
+    await this.sortDropdown.selectOption(option);
+  }
+
+  async getProductPrices(): Promise<number[]> {
+    const texts = await this.productPrices.allTextContents();
+    return texts.map((t) => Number(t.replace("$", "").trim()));
   }
 
   async addProductToCart(productName: string) {

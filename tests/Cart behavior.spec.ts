@@ -5,6 +5,20 @@ import { InventoryPage } from "../pages/InventoryPage";
 import { CartPage } from "../pages/CartPage";
 
 const BASE_URL = "https://www.saucedemo.com";
+const PRODUCTS_COUNT = 6;
+
+function getRandomIndex(): number {
+  return Math.floor(Math.random() * PRODUCTS_COUNT);
+}
+
+function getRandomIndices(count: number): number[] {
+  const indices = Array.from({ length: PRODUCTS_COUNT }, (_, i) => i);
+  for (let i = indices.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [indices[i], indices[j]] = [indices[j], indices[i]];
+  }
+  return indices.slice(0, count);
+}
 
 test.describe( "Cart behavior", () => {
   test.beforeEach(async ({ page }) => {
@@ -17,8 +31,9 @@ test.describe( "Cart behavior", () => {
   
     test("Add one item to the cart", async ({ page }) => {
       const inventoryPage = new InventoryPage(page);
+      const randomIndex = getRandomIndex();
 
-      await inventoryPage.addProductByIndex(0);
+      await inventoryPage.addProductByIndex(randomIndex);
 
       await expect(
         inventoryPage.cartBadge,
@@ -28,10 +43,11 @@ test.describe( "Cart behavior", () => {
 
     test("Add mltpl items to the cart", async ({ page }) => {
       const inventoryPage = new InventoryPage(page);
+      const randomIndices = getRandomIndices(3);
 
-      await inventoryPage.addProductByIndex(0);
-      await inventoryPage.addProductByIndex(1);
-      await inventoryPage.addProductByIndex(2);
+      for (const index of randomIndices) {
+        await inventoryPage.addProductByIndex(index);
+      }
 
       await expect(
         inventoryPage.cartBadge,
@@ -41,15 +57,16 @@ test.describe( "Cart behavior", () => {
 
     test("Remove single item", async ({ page }) => {
       const inventoryPage = new InventoryPage(page);
+      const randomIndex = getRandomIndex();
 
-      await inventoryPage.addProductByIndex(0);
+      await inventoryPage.addProductByIndex(randomIndex);
 
       await expect(
         inventoryPage.cartBadge,
         "Cart badge should show 1 after adding one item"
       ).toHaveText("1");
 
-      await inventoryPage.removeProductByIndex(0);
+      await inventoryPage.removeProductByIndex(randomIndex);
 
       await expect(
         inventoryPage.cartBadge,
@@ -59,17 +76,18 @@ test.describe( "Cart behavior", () => {
 
     test("Remove one of many", async ({ page }) => {
       const inventoryPage = new InventoryPage(page);
+      const randomIndices = getRandomIndices(3);
 
-      await inventoryPage.addProductByIndex(0);
-      await inventoryPage.addProductByIndex(1);
-      await inventoryPage.addProductByIndex(2);
+      for (const index of randomIndices) {
+        await inventoryPage.addProductByIndex(index);
+      }
 
       await expect(
         inventoryPage.cartBadge,
         "Cart badge should show 3 after adding three items"
       ).toHaveText("3");
 
-      await inventoryPage.removeProductByIndex(1);
+      await inventoryPage.removeProductByIndex(randomIndices[1]);
 
       await expect(
         inventoryPage.cartBadge,
@@ -80,9 +98,10 @@ test.describe( "Cart behavior", () => {
     test("Remove from cart", async ({ page }) => {
       const inventoryPage = new InventoryPage(page);
       const cartPage = new CartPage(page);
+      const randomIndex = getRandomIndex();
 
-      const productName = await inventoryPage.getProductNameByIndex(0);
-      await inventoryPage.addProductByIndex(0);
+      const productName = await inventoryPage.getProductNameByIndex(randomIndex);
+      await inventoryPage.addProductByIndex(randomIndex);
       await inventoryPage.openCart();
 
       await cartPage.removeProductByIndex(0);
@@ -101,9 +120,10 @@ test.describe( "Cart behavior", () => {
     test("Names on the cart page", async ({ page }) => {
       const inventoryPage = new InventoryPage(page);
       const cartPage = new CartPage(page);
+      const randomIndex = getRandomIndex();
 
-      const productName = await inventoryPage.getProductNameByIndex(0);
-      await inventoryPage.addProductByIndex(0);
+      const productName = await inventoryPage.getProductNameByIndex(randomIndex);
+      await inventoryPage.addProductByIndex(randomIndex);
       await inventoryPage.openCart();
 
       await expect(
