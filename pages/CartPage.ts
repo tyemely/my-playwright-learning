@@ -25,6 +25,13 @@ export class CartPage {
       .click();
   }
 
+  async removeProductByIndex(index: number) {
+    await this.cartItems
+      .nth(index)
+      .getByRole("button", { name: /remove/i })
+      .click();
+  }
+
   async checkout() {
     await this.checkoutButton.click();
   }

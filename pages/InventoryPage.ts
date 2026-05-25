@@ -31,6 +31,31 @@ export class InventoryPage {
       .click();
   }
 
+  async addProductByIndex(index: number) {
+    await this.page
+      .locator(".inventory_item")
+      .nth(index)
+      .getByRole("button", { name: /add to cart/i })
+      .click();
+  }
+
+  async removeProductByIndex(index: number) {
+    await this.page
+      .locator(".inventory_item")
+      .nth(index)
+      .getByRole("button", { name: /remove/i })
+      .click();
+  }
+
+  async getProductNameByIndex(index: number): Promise<string> {
+    const name = await this.page
+      .locator(".inventory_item")
+      .nth(index)
+      .locator(".inventory_item_name")
+      .textContent();
+    return name?.trim() ?? "";
+  }
+
   async openCart() {
     await this.cartIcon.click();
   }
