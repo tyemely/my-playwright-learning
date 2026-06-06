@@ -89,7 +89,7 @@ test.describe('Shopping Cart', () => {
   });
 });
 
-// Group 4: Cart (problem_user)
+// Group 4: Cart (problem_user) (bug)
 test.describe('Shopping Cart (problem_user)', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(BASE_URL);
